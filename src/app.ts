@@ -10,6 +10,7 @@ import 'reflect-metadata';
 import { IConfigService } from './config/config.service.interface';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { PrismaService } from './database/prisma.service';
+import { AuthMiddleWare } from './common/auth.middleware';
 
 @injectable()
 export class App {
@@ -30,6 +31,8 @@ export class App {
 
 	useMiddleWare(): void {
 		this.app.use(json());
+		const authMiddleWare = new AuthMiddleWare(this.configService.get('SECRET'));
+		this.app.use(authMiddleWare.execute.bind(authMiddleWare));
 	}
 
 	useRoutes(): void {
