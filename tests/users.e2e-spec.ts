@@ -17,5 +17,12 @@ describe('Users e2e', () => {
 		});
 		expect(res.statusCode).toBe(422);
 	});
+	it('Login - success', async () => {
+		const res = await request(application.app).post('/users/login').send({
+			email: 'tom@pot.ru',
+			password: 'fbkb',
+		});
+		expect(res.body.jwt).not.toBeUndefined();
+	});
 });
 afterAll(() => application.close());
