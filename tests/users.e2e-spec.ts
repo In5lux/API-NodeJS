@@ -24,5 +24,12 @@ describe('Users e2e', () => {
 		});
 		expect(res.body.jwt).not.toBeUndefined();
 	});
+	it('Login - error', async () => {
+		const res = await request(application.app).post('/users/login').send({
+			email: 'tom@pot.ru',
+			password: 'fbkbs',
+		});
+		expect(res.statusCode).toBe(401);
+	});
 });
 afterAll(() => application.close());
