@@ -41,5 +41,13 @@ describe('Users e2e', () => {
 			.set('Authorization', `Bearer ${login.body.jwt}`);
 		expect(res.body.email).toBe('tom@pot.ru');
 	});
+	it('Info - error', async () => {
+		const login = await request(application.app).post('/users/login').send({
+			email: 'tom@pot.ru',
+			password: 'fbkb',
+		});
+		const res = await request(application.app).get('/users/info').set('Authorization', 'Bearer 1');
+		expect(res.statusCode).toBe(401);
+	});
 });
 afterAll(() => application.close());
